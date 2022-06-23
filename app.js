@@ -10,11 +10,11 @@ app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
 
 app.use("/wiki", wikiRouter);
-app.use("/users", userRouter);
+// app.use("/users", userRouter);
 //app.use(express.urlencoded);
 
 app.get("/", (req, res) => {
-  res.send("hello");
+  res.redirect("/wiki");
 });
 
 db.authenticate().then(() => {
