@@ -8,10 +8,10 @@ const app = express();
 
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
-
+app.use(express.json());
 app.use("/wiki", wikiRouter);
-// app.use("/users", userRouter);
-//app.use(express.urlencoded);
+app.use("/users", userRouter);
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
   res.redirect("/wiki");
@@ -34,7 +34,7 @@ db.authenticate().then(() => {
 // syncUser();
 
 const syncdb = async () => {
-  await db.sync(); // if model defnition change use db.sync({force: true})
+  await db.sync({force: true}); // if model defnition change use db.sync({force: true})
   console.log("db sync done");
 };
 syncdb();
@@ -44,3 +44,5 @@ const PORT = 8080;
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
+
+module.exports = app;
